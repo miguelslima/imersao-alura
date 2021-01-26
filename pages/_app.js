@@ -33,7 +33,10 @@ export default function App({ Component, pageProps }) {
         <GlobalStyle />
         <Head>
           <title>Alura Quiz</title>
-          <meta name="viewport" content={`${window.location.origin}${db.bg}`} />
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
         </Head>
         <Component {...pageProps} />
       </ThemeProvider>
