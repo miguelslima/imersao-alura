@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import db from "../db.json";
+
+import { useRouter } from "next/router";
+
 import Widget from "../src/components/Widget";
 import Footer from "../src/components/Footer";
 import GitHubCorner from "../src/components/GitHubCorner";
@@ -20,6 +23,9 @@ const QuizContainer = styled.div`
 `;
 
 export default function Home() {
+  const router = useRouter();
+  const [name, setName] = React.useState("");
+
   return (
     <QuizBackground backgroundImage={db.bg}>
       <QuizContainer>
@@ -28,15 +34,26 @@ export default function Home() {
             <h1>The legend of zelda</h1>
           </Widget.Header>
           <Widget.Content>
-            <form onSubmit={() => {}}>
-              <input placeholder="Digite seu nome" type="text" />
-              <button type="submit">Jogar [nome]</button>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                router.push(`/quiz?name=${name}`);
+              }}
+            >
+              <input
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+                placeholder="Digite seu nome"
+                type="text"
+              />
+              <button type="submit" disabled={name.length === 0}>
+                Jogar {name}
+              </button>
             </form>
           </Widget.Content>
         </Widget>
-        <Link href="quiz">
-          <a style={{ textDecoration: "none" }}>Quiz</a>
-        </Link>
+
         <Widget>
           <Widget.Header>
             <h1>Quizes da galera</h1>
