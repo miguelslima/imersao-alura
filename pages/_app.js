@@ -1,4 +1,5 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+import Head from "next/head";
 import db from "../db.json";
 
 const GlobalStyle = createGlobalStyle`
@@ -8,11 +9,9 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    /* New styles */
     display: flex;
     flex-direction: column;
     font-family: 'Lato', sans-serif;
-    // Deixa branco no começo
     color: ${({ theme }) => theme.colors.contrastText};
   }
   html, body {
@@ -32,6 +31,10 @@ export default function App({ Component, pageProps }) {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
+        <Head>
+          <title>Alura Quiz</title>
+          <meta name="viewport" content={`${window.location.origin}${db.bg}`} />
+        </Head>
         <Component {...pageProps} />
       </ThemeProvider>
     </>

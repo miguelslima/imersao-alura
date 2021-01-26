@@ -5,6 +5,8 @@ import Footer from "../src/components/Footer";
 import GitHubCorner from "../src/components/GitHubCorner";
 import QuizBackground from "../src/components/QuizBackground";
 
+import Link from "next/link";
+
 const QuizContainer = styled.div`
   width: 100%;
   max-width: 350px;
@@ -34,6 +36,9 @@ export default function Home() {
             </p>
           </Widget.Content>
         </Widget>
+        <Link href="quiz">
+          <a style={{ textDecoration: "none" }}>Quiz</a>
+        </Link>
         <Widget>
           <Widget.Header>
             <h1>Quizes da galera</h1>
@@ -47,6 +52,7 @@ export default function Home() {
             </p>
           </Widget.Content>
         </Widget>
+
         <Footer />
       </QuizContainer>
       <GitHubCorner />
