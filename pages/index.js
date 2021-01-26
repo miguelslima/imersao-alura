@@ -28,12 +28,10 @@ export default function Home() {
             <h1>The legend of zelda</h1>
           </Widget.Header>
           <Widget.Content>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut
-              voluptatem commodi ipsum? Nemo dolore libero laborum enim
-              veritatis voluptates asperiores, quis quidem, cumque fuga maiores
-              ullam eum laboriosam quas ut!
-            </p>
+            <form onSubmit={() => {}}>
+              <input placeholder="Digite seu nome" type="text" />
+              <button type="submit">Jogar [nome]</button>
+            </form>
           </Widget.Content>
         </Widget>
         <Link href="quiz">
