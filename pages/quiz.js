@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import QuizBackground from "../src/components/QuizBackground";
 import QuizContainer from "../src/components/QuizContainer";
 import QuizLogo from "../src/components/QuizLogo";
@@ -6,7 +6,6 @@ import Widget from "../src/components/Widget";
 import Button from "../src/components/Button";
 
 import db from "../db.json";
-import { func } from "prop-types";
 
 function LoadingWidget() {
   return (
@@ -18,7 +17,7 @@ function LoadingWidget() {
   );
 }
 
-function QuestionWidget({ question, totalQuestions, questionIndex }) {
+function QuestionWidget({ question, questionIndex, totalQuestions, onSubmit }) {
   const questionId = `question__${questionIndex}`;
 
   return (
@@ -40,43 +39,82 @@ function QuestionWidget({ question, totalQuestions, questionIndex }) {
         <h2>{question.title}</h2>
         <p>{question.description}</p>
 
-        <form action="">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit();
+          }}
+        >
           {question.alternatives.map((alternative, alternativeIndex) => {
             const alternativeId = `alternative__${alternativeIndex}`;
             return (
               <Widget.Topic as="label" htmlFor={alternativeId}>
-                <input id={alternativeId} type="radio" name={questionId} />
+                <input
+                  // style={{ display: 'none' }}
+                  id={alternativeId}
+                  name={questionId}
+                  type="radio"
+                />
                 {alternative}
               </Widget.Topic>
             );
           })}
+          <Button type="submit">Confirmar</Button>
         </form>
 
         {/* <pre>
           {JSON.stringify(question, null, 4)}
         </pre> */}
-
-        <Button>Confirmar</Button>
       </Widget.Content>
     </Widget>
   );
 }
 
+const screenStates = {
+  QUIZ: "QUIZ",
+  LOADING: "LOADING",
+  RESULT: "RESULT",
+};
+
 function QuizPage() {
+  const [screenState, setScreenState] = useState(screenStates.LOADING);
+  const [currentQuestion, setCurrentQuestion] = React.useState(0);
+  const questionIndex = currentQuestion;
   const totalQuestions = db.questions.length;
-  const questionIndex = 0;
   const question = db.questions[questionIndex];
 
+  useEffect(() => {
+    setTimeout(() => {
+      setScreenState(screenStates.QUIZ);
+    }, 1 * 1000);
+  }, []);
+
+  function handleSubmitQuiz() {
+    const nextQuestion = questionIndex + 1;
+    if (nextQuestion < totalQuestions) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setScreenState(screenStates.RESULT);
+    }
+  }
+
   return (
-    <QuizBackground>
+    <QuizBackground backgroundImage={db.bg}>
       <QuizContainer>
         <QuizLogo />
-        <QuestionWidget
-          totalQuestions={totalQuestions}
-          questionIndex={questionIndex}
-          question={question}
-        />
-        <LoadingWidget />
+        {screenState === screenStates.QUIZ && (
+          <QuestionWidget
+            totalQuestions={totalQuestions}
+            questionIndex={questionIndex}
+            question={question}
+            onSubmit={handleSubmitQuiz}
+          />
+        )}
+        {screenState === screenStates.LOADING && <LoadingWidget />}
+
+        {screenState === screenStates.RESULT && (
+          <div>Você acertou X questões</div>
+        )}
       </QuizContainer>
     </QuizBackground>
   );
