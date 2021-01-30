@@ -10,6 +10,7 @@ import QuizLogo from "../src/components/QuizLogo";
 import QuizBackground from "../src/components/QuizBackground";
 import Input from "../src/components/Input";
 import Button from "../src/components/Button";
+import Link from "../src/components/Link";
 
 const QuizContainer = styled.div`
   width: 100%;
@@ -72,7 +73,10 @@ export default function Home() {
 
                 return (
                   <li key={linkExterno}>
-                    <Widget.Topic href={linkExterno}>
+                    <Widget.Topic
+                      as={Link}
+                      href={`/quiz/${projectName}___${githubUser}`}
+                    >
                       {`${githubUser}/${projectName}`}
                     </Widget.Topic>
                   </li>
