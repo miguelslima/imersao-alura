@@ -15,29 +15,33 @@ export default function QuizDaGaleraPage({ dbExterno }) {
 
 export async function getServerSideProps(context) {
   const [projectName, githubUser] = context.query.id.split("___");
-  
-  const dbExterno = await fetch(
-    `https://${projectName}.${githubUser}.vercel.app/api/db`
-  )
-    .then((respostaDoServidor) => {
-      if (respostaDoServidor.ok) {
-        return respostaDoServidor.json();
-      }
 
-      throw new Error("Falha ao converter os dados");
-    })
-    .then((repostaConvertidaEmObjeto) => {
-      return repostaConvertidaEmObjeto;
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  try {
+    const dbExterno = await fetch(
+      `https://${projectName}.${githubUser}.vercel.app/api/db`
+    )
+      .then((respostaDoServidor) => {
+        if (respostaDoServidor.ok) {
+          return respostaDoServidor.json();
+        }
 
-  console.log(dbExterno);
+        throw new Error("Falha ao converter os dados");
+      })
+      .then((repostaConvertidaEmObjeto) => {
+        return repostaConvertidaEmObjeto;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
 
-  return {
-    props: {
-      dbExterno,
-    },
-  };
+    console.log(dbExterno);
+
+    return {
+      props: {
+        dbExterno,
+      },
+    };
+  } catch (err) {
+    throw new Error(err);
+  }
 }
