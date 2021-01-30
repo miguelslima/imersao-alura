@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import Widget from "../src/components/Widget";
 import Footer from "../src/components/Footer";
 import GitHubCorner from "../src/components/GitHubCorner";
+import QuizLogo from "../src/components/QuizLogo";
 import QuizBackground from "../src/components/QuizBackground";
 import Input from "../src/components/Input";
 import Button from "../src/components/Button";
@@ -29,6 +30,7 @@ export default function Home() {
   return (
     <QuizBackground backgroundImage={db.bg}>
       <QuizContainer>
+        <QuizLogo />
         <Widget>
           <Widget.Header>
             <h1>The legend of zelda</h1>
